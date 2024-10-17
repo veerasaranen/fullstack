@@ -33,8 +33,12 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.9",
+    "@testing-library/jest-dom": "^6.6.1",
+    "@testing-library/react": "^16.0.1",
     "cross-env": "^7.0.3",
+    "jsdom": "^25.0.1",
     "nodemon": "^3.1.7",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.3"
   }
 }
