@@ -5,9 +5,6 @@ import blogService from '../services/blogs'
 const Blog = ({ blog, user }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
 
-  //username is unique so that is used here
-  const blogUsername = blog.user.username
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -27,7 +24,7 @@ const Blog = ({ blog, user }) => {
     }
   }
 
-  if (user.username === blogUsername) {
+  if (user.username === blog.user.username) {
     return(
       <div style={blogStyle}>
         <p className='blogContent'>{blog.title} by {blog.author}</p>

@@ -6,13 +6,13 @@ const initialBlogs = [
       author: "Crazy cats",
       title: "Cat Lady",
       url: "http://catsrule",
-      likes: 12
+      likes: 12,
     },
     {
       author: "Lovely dogs",
       title: "Dog Lady",
       url: "http://dogsrule",
-      likes: 23
+      likes: 23,
     },
   ]
 
@@ -27,8 +27,8 @@ const initialBlogs = [
   }
   
   module.exports = {
-    initialBlogs,
     blogsInDb,
     usersInDb,
+    initialBlogs
   }
   

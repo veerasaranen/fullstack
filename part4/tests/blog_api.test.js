@@ -11,13 +11,45 @@ const Blog = require('../models/blog')
 
 const api = supertest(app)
 
+//important note: use postman to create a user 
+//with username: root, name: root, password: sekret
+
 beforeEach(async () => {
+  // I changed into this way of adding since the frontend did not work. Some tasks in part 5 broke it. 
+  //All the tests work at least after part 5
+  
   await Blog.deleteMany({})
 
-  const blogObjects = helper.initialBlogs
+  const response = await api
+                      .post('/api/login')
+                      .send({ username: 'root', password: 'sekret' })
+                      .expect(200)
+                      .expect('Content-Type', /application\/json/)
+
+  const token =  response.body.token
+
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(helper.initialBlogs[0])
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(helper.initialBlogs[1])
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  await Blog.find({}).populate('user', { username: 1, name: 1 })
+
+  /*const blogObjects = helper.initialBlogs
     .map(blog => new Blog(blog))
   const promiseArray = blogObjects.map(blog => blog.save())
-  await Promise.all(promiseArray)
+  await Promise.all(promiseArray)*/
+  console.log(await Blog.find({}).populate('user', { username: 1, name: 1 }))
+
 })
 
 describe('apis regarding the blogs', () => {
@@ -189,11 +221,20 @@ describe('apis regarding the blogs', () => {
   })
 
   test('deleting a blog works if id is valid', async () => {
+    const response = await api
+                      .post('/api/login')
+                      .send({ username: 'root', password: 'sekret' })
+                      .expect(200)
+                      .expect('Content-Type', /application\/json/)
+
+    const token =  response.body.token
+
     const blogsAtFirst = await helper.blogsInDb()
     const blog = blogsAtFirst[0]
 
     await api
       .delete(`/api/blogs/${blog.id}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
@@ -205,12 +246,20 @@ describe('apis regarding the blogs', () => {
   })
 
   test('deleting a blog does not work with an invalid id', async () => {
+    const response = await api
+                      .post('/api/login')
+                      .send({ username: 'root', password: 'sekret' })
+                      .expect(200)
+                      .expect('Content-Type', /application\/json/)
+
+    const token =  response.body.token
     const blogsAtFirst = await helper.blogsInDb()
     const blog = blogsAtFirst[0]
 
     await api
       .delete(`/api/blogs/123`)
-      .expect(400)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(400) 
 
     const blogsAtEnd = await helper.blogsInDb()
 

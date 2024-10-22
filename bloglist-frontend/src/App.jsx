@@ -68,12 +68,13 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-        <h2>Log in</h2>
+        <h2 className='loginPage'>Log in</h2>
         <Notification message={notification}/>
         <form onSubmit={handleLogin}>
           <div>
             username
             <input
+              data-testid='username'
               type="text"
               value={username}
               name="Username"
@@ -83,6 +84,7 @@ const App = () => {
           <div>
             password
             <input
+              data-testid='password'
               type="password"
               value={password}
               name="Password"
@@ -108,11 +110,13 @@ const App = () => {
         <BlogForm createBlog={handleCreation} user={user} setNotification={setNotification}/>
       </Togglable>
       <h2>blogs</h2>
-      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <div key={blog.id} >
-          <Blog blog={blog} user={user} />
-        </div>
-      )}
+      <div>
+        {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+          <div key={blog.id} className='blogList'>
+            <Blog blog={blog} user={user} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
