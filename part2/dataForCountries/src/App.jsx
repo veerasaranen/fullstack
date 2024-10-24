@@ -22,46 +22,33 @@ const App = () => {
 
   const weatherHook = () => {
     if (country) {
-      console.log("here")
       countryService
         .getWeather(country, api_key)
         .then(weather => {
-          console.log('weather', weather)
           setWeather(weather)
-          console.log('weatherData', weatherData)
         })
+    }
+  }
+
+  const resultHook = () => {
+    if (results.length === 1) {
+      setCountry(results[0])
     }
   }
 
   useEffect(hook, [search])
   useEffect(weatherHook, [country])
+  useEffect(resultHook, [results])
 
   const handleChange = (event) => {
     event.preventDefault()
     setSearch(event.target.value)
-    if (results.length === 1) {
-      console.log("country changed")
-      setCountry(results[0])
-    }
   }
 
   const handleShowing = (country) => {
-    console.log("country changed")
     setSearch(country.name.common)
-    setCountry(country.name.common)
+    setCountry(country)
   }
-
-  if (country) {
-  console.log('countryHERE', country.name.common)
-  console.log('weathreHERE',weatherData)
-  }
-
-  //console.log(results.length)
-/*    console.log(results.length)
-    if (results.length === 1) {
-      console.log("country changed")
-      setCountry(results[0])
-    }*/ 
 
   return (
     <div>
@@ -70,7 +57,7 @@ const App = () => {
         Search:  
         <input value={search} onChange={handleChange} />
       </form>
-        <SearchResults list={results} show={handleShowing} weather={weatherData} />
+      <SearchResults list={results} show={handleShowing} weather={weatherData} />
     </div>
   )
   

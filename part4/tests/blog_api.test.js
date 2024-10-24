@@ -13,6 +13,8 @@ const api = supertest(app)
 
 //important note: use postman to create a user 
 //with username: root, name: root, password: sekret
+// the frontend broke down due to new additions to code 
+// in part 5
 
 beforeEach(async () => {
   // I changed into this way of adding since the frontend did not work. Some tasks in part 5 broke it. 
