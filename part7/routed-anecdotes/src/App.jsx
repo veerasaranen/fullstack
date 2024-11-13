@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useField } from './hooks/index'
+
 import {
   Routes,
   Route,
@@ -94,40 +96,56 @@ const Anecdote = ({ anecdote }) => {
 }
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
+  /*const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  */
+
+  const contentInput = useField('content')
+  const authorInput = useField('author')
+  const infoInput = useField('info')
 
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
+    /*props.addNew({
       content,
       author,
       info,
       votes: 0
-    })
+    })*/
+
+   props.addNew({
+     content: contentInput.value,
+     author: authorInput.value,
+     info: infoInput.value,
+     votes: 0
+   })
+
     navigate('/')
   }
+
+  //The reset button works with nothing for the onClick operation
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...contentInput} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...authorInput} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...infoInput} />
         </div>
-        <button>create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button>reset</button> 
       </form>
     </div>
   )
