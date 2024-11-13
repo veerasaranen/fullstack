@@ -61,7 +61,7 @@ const Country = ({ country }) => {
     )
   }
 
-// the image did not show on the screenso i fixed that too
+// the image did not show on the screen so i fixed that too
 
   return (
     <div>
