@@ -33,8 +33,8 @@ const App = () => {
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      dispatch(setUser(user))
+      const userNow = JSON.parse(loggedUser)
+      dispatch(setUser(userNow))
       blogService.setToken(user.token)
     }
   }, [])
@@ -52,7 +52,7 @@ const App = () => {
       )
 
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(setUser(null))
     window.localStorage.removeItem('loggedBlogappUser')
   }
 

@@ -40,4 +40,3 @@ export const getBlogs = () => {
     dispatch(setBlogs(blogs))
   }
 }
-
